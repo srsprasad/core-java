@@ -1,32 +1,38 @@
 package org.surthi.app.concurrent.forkjoin;
 
-import com.sun.deploy.util.ArrayUtil;
-
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MemberReportApplication {
-    private static String[][] data = new String[][] {{"Ravi", "07-07-1980", "10-01-2018"}, {"Vyshu", "03-04-1989", "02-02-2018"}};
-    public static void main(String...args) throws Exception {
+    private static String[][] data = new String[][]{
+            {"Ravi", "07-07-1980", "10-01-2018"},
+            {"Vyshu", "03-04-1989", "10-01-2018"},
+            {"Geetha", "10-04-1976", "10-01-2018"},
+            {"Mallika", "08-05-1982", "10-01-2018"}
+    };
+
+    public static void main(String... args) throws Exception {
         MemberReportApplication app = new MemberReportApplication();
         List<MemberWrapper> memberWrappers = app.buildMemberWrappers();
-        System.out.println("Number of Members: "+ memberWrappers.size());
+        System.out.println("Number of Members: " + memberWrappers.size());
         ForkJoinPool pool = new ForkJoinPool();
         pool.execute(new MemberWork(memberWrappers, Calendar.getInstance().getTime()));
-        System.out.println("Members: "+ memberWrappers.toString());
+        System.out.println("Members: " + memberWrappers.toString());
     }
 
     public List<MemberWrapper> buildMemberWrappers() throws Exception {
         final List<MemberWrapper> memberWrappers = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
-        for ( String[] dA : Stream.of(data).collect(Collectors.toList())){
-            final Member member = new Member(dA[0],format.parse(dA[1]), format.parse(dA[2]));
+        for (String[] dA : Stream.of(data).collect(Collectors.toList())) {
+            final Member member = new Member(dA[0], format.parse(dA[1]), format.parse(dA[2]));
             memberWrappers.add(new MemberWrapper(member));
         }
         return memberWrappers;
@@ -36,6 +42,7 @@ public class MemberReportApplication {
 class MemberWork extends RecursiveAction {
     private final List<MemberWrapper> memberWrappers;
     private final Date currentDate;
+
     public MemberWork(final List<MemberWrapper> memberWrappers, final Date date) {
         this.memberWrappers = memberWrappers;
         this.currentDate = date;
@@ -43,12 +50,12 @@ class MemberWork extends RecursiveAction {
 
     @Override
     protected void compute() {
-        if (memberWrappers.size() == 2 ) {
+        if (memberWrappers.size() == 2) {
             evaluateMember(memberWrappers.get(0));
             evaluateMember(memberWrappers.get(1));
-        }else if (memberWrappers.size() == 1) {
+        } else if (memberWrappers.size() == 1) {
             evaluateMember(memberWrappers.get(0));
-        }else {
+        } else {
             int middleIndex = memberWrappers.size() / 2;
             final List<MemberWrapper> leftMembers = new ArrayList<>();
             final List<MemberWrapper> rightMembers = new ArrayList<>();
@@ -61,6 +68,7 @@ class MemberWork extends RecursiveAction {
             invokeAll(new MemberWork(leftMembers, currentDate), new MemberWork(rightMembers, currentDate));
         }
     }
+
     private void evaluateMember(final MemberWrapper memberWrapper) {
         long diff = currentDate.getTime() - memberWrapper.getMember().getRegisteredDate().getTime();
         long daysSinceRegistered = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
@@ -69,7 +77,7 @@ class MemberWork extends RecursiveAction {
         Calendar dobCal = Calendar.getInstance();
         dobCal.setTime(memberWrapper.getMember().getDateOfBirth());
         int age = todaysCal.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
-        memberWrapper.setDaysSinceRegistered((int)daysSinceRegistered);
+        memberWrapper.setDaysSinceRegistered((int) daysSinceRegistered);
         memberWrapper.setAge(age);
     }
 }
