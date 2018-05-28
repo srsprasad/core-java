@@ -18,7 +18,8 @@ public class MemberReportApplication {
             {"Geetha", "10-04-1976", "10-01-2018"},
             {"Mallika", "08-05-1982", "10-01-2018"},
             {"Sidramulu", "16-05-1951", "10-01-2018"},
-            {"Balamani", "10-10-1956", "10-01-2018"}
+            {"Balamani", "10-10-1956", "10-01-2018"},
+            {"Jagadeesh", "10-04-1980", "10-01-2018"}
     };
 
     public static void main(String... args) throws Exception {
