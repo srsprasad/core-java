@@ -8,9 +8,11 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getTeamResponse complex type.
+ * <p>
+ * Java class for getTeamResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="getTeamResponse">
@@ -27,36 +29,30 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getTeamResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "getTeamResponse", propOrder = {"_return"})
 public class GetTeamResponse {
 
-    @XmlElement(name = "return")
-    protected Team _return;
+  @XmlElement(name = "return")
+  protected Team _return;
 
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Team }
-     *     
-     */
-    public Team getReturn() {
-        return _return;
-    }
+  /**
+   * Gets the value of the return property.
+   * 
+   * @return possible object is {@link Team }
+   * 
+   */
+  public Team getReturn() {
+    return _return;
+  }
 
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Team }
-     *     
-     */
-    public void setReturn(Team value) {
-        this._return = value;
-    }
+  /**
+   * Sets the value of the return property.
+   * 
+   * @param value allowed object is {@link Team }
+   * 
+   */
+  public void setReturn(Team value) {
+    this._return = value;
+  }
 
 }

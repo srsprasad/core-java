@@ -1,27 +1,26 @@
 package org.surthi.app.ws.moderate;
 
 public class Player {
-    private String name;
+  private String name;
 
-    public Player() {
+  public Player() {
 
-    }
-    public Player(String name) {
-        setName(name);
-    }
+  }
 
-    public String getName() {
-        return name;
-    }
+  public Player(String name) {
+    setName(name);
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                '}';
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "Player{" + "name='" + name + '\'' + '}';
+  }
 }
